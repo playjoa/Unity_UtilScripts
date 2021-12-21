@@ -7,9 +7,11 @@ namespace Utils.UI
     [RequireComponent(typeof(Button))]
     public class ButtonComponent : MonoBehaviour
     {
+        [SerializeField] private Image thisImage;
         [SerializeField] private Button thisButton;
         [SerializeField] private TextMeshProUGUI thisText;
 
+        public Image Image => thisImage;
         public Button Button => thisButton;
         public TextMeshProUGUI Text => thisText;
 
@@ -17,6 +19,7 @@ namespace Utils.UI
         
         private void OnValidate()
         {
+            thisImage = GetComponent<Image>();
             thisButton = GetComponent<Button>();
             thisText = GetComponentInChildren<TextMeshProUGUI>();
 
