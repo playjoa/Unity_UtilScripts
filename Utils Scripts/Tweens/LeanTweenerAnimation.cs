@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utils.Tweens.Data;
 
 namespace Utils.Tweens
 {

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using Utils.Tweens;
+using Utils.Tweens.Data;
 using Utils.UI;
 
-namespace Utils.Animations
+namespace Utils.Tweens
 {
     [RequireComponent(typeof(ButtonComponent))]
     public class ButtonTweenAnimations : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
