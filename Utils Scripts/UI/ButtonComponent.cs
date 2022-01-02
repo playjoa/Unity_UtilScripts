@@ -19,10 +19,8 @@ namespace Utils.UI
 
         private const string TextName = "txtButtonInfo";
 
-        protected override void OnValidate()
+        private void OnValidate()
         {
-            base.OnValidate();
-            
             thisImage = GetComponent<Image>();
             thisButton = GetComponent<Button>();
             thisText = GetComponentInChildren<TextMeshProUGUI>();
