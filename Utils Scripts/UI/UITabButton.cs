@@ -5,11 +5,11 @@ namespace Utils.UI
     [RequireComponent(typeof(ButtonComponent))]
     public class UITabButton : MonoBehaviour
     {
-        [Header("Tab Selection")] [SerializeField]
-        private UITabSelection tabSelection;
+        [Header("Tab Selection")] 
+        [SerializeField] private UITabSelection tabSelection;
 
-        [Header("Tab Configuration")] [SerializeField]
-        private string targetTabId = "skins";
+        [Header("Tab Configuration")] 
+        [SerializeField] private string targetTabId = "skins";
 
         [SerializeField] private ButtonComponent buttonComponent;
 

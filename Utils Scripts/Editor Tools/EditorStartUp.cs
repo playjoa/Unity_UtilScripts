@@ -9,6 +9,7 @@ namespace Utils.EditorTools
         private const string StartUpScenePath = "Assets/Scenes/StartUp.unity";
         private const string TestEnvironmentScenePath = "Assets/Scenes/TestScene.unity";
         private const string MainScenePath = "Assets/Scenes/Main.unity";
+        
         private const string PlayFromStartUpInfo = "DevTools/Play-Stop From StartUp";
         private const string OpenTestEnvironmentInfo = "DevTools/Open Test Scene";
         private const string OpenMainSceneInfo = "DevTools/Open Main Scene";
