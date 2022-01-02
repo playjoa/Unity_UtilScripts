@@ -14,8 +14,8 @@ namespace Utils.UI
         [SerializeField] private ButtonComponent buttonComponent;
 
         private void OnValidate() => buttonComponent = GetComponent<ButtonComponent>();
-        private void Awake() => buttonComponent.Button.onClick.AddListener(ButtonTabClickHandler);
-        private void OnDestroy() => buttonComponent.Button.onClick.RemoveListener(ButtonTabClickHandler);
+        private void Awake() => buttonComponent.onClick.AddListener(ButtonTabClickHandler);
+        private void OnDestroy() => buttonComponent.onClick.RemoveListener(ButtonTabClickHandler);
         private void ButtonTabClickHandler() => tabSelection.RequestTabSwitch(targetTabId);
         public void SetButtonColor(Color colorToSet) => buttonComponent.Image.color = colorToSet;
     }

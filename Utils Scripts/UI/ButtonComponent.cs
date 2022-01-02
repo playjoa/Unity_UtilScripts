@@ -8,12 +8,10 @@ namespace Utils.UI
     public class ButtonComponent : Button
     {
         [SerializeField] private Image thisImage;
-        [SerializeField] private Button thisButton;
         [SerializeField] private TextMeshProUGUI thisText;
         [SerializeField] private ButtonTweenAnimations thisButtonAnimations;
         
         public Image Image => thisImage;
-        public Button Button => thisButton;
         public TextMeshProUGUI Text => thisText;
         public ButtonTweenAnimations ButtonAnimations => thisButtonAnimations;
 
@@ -22,7 +20,6 @@ namespace Utils.UI
         private void OnValidate()
         {
             thisImage = GetComponent<Image>();
-            thisButton = GetComponent<Button>();
             thisText = GetComponentInChildren<TextMeshProUGUI>();
             thisButtonAnimations = GetComponent<ButtonTweenAnimations>();
 
@@ -32,7 +29,7 @@ namespace Utils.UI
             if (thisText) thisText.name = TextName;
         }
 
-        public void Disable() => thisButton.interactable = false;
-        public void Enable() => thisButton.interactable = true;
+        public void Disable() => interactable = false;
+        public void Enable() => interactable = true;
     }
 }
