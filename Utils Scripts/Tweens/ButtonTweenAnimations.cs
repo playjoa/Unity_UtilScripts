@@ -11,13 +11,13 @@ namespace Utils.Tweens
         [Header("Button Animations Config.")] 
         [SerializeField] private TweenAnimationData clickData = new TweenAnimationData(LeanTweenType.easeOutBack, 0.85f, 0.1f);
         [SerializeField] private TweenAnimationData releaseData = new TweenAnimationData(LeanTweenType.easeOutBack, animDuration: 0.1f);
-        [SerializeField] private TweenAnimationData negativeData = new TweenAnimationData(LeanTweenType.easeShake, 1.15f, 0.15f);
+        [SerializeField] private TweenAnimationData negativeData = new TweenAnimationData(LeanTweenType.easeInBack, 1.15f, 0.15f);
 
         private bool givingNegativeFeedback;
         
         public void ExecuteAnimation(TweenAnimationData animationData)
         {
-            if(givingNegativeFeedback) return;
+            if (givingNegativeFeedback) return;
             if (animationData.EaseType == LeanTweenType.notUsed) return;
 
             if (LeanTween.isTweening(gameObject))
@@ -33,6 +33,8 @@ namespace Utils.Tweens
 
         public void NegativeFeedBack()
         {
+            if (givingNegativeFeedback) return;
+            
             if (LeanTween.isTweening(gameObject))
                 LeanTween.cancel(gameObject);
 
