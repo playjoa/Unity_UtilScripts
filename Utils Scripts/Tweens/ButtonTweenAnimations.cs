@@ -8,17 +8,16 @@ namespace Utils.Tweens
     [RequireComponent(typeof(ButtonComponent))]
     public class ButtonTweenAnimations : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        [Header("Click Animation Config.")] [SerializeField]
-        private TweenAnimationData clickData = new TweenAnimationData(LeanTweenType.easeOutBack, 0.85f, 0.1f);
+        [Header("Button Animations Config.")] 
+        [SerializeField] private TweenAnimationData clickData = new TweenAnimationData(LeanTweenType.easeOutBack, 0.85f, 0.1f);
+        [SerializeField] private TweenAnimationData releaseData = new TweenAnimationData(LeanTweenType.easeOutBack, animDuration: 0.1f);
+        [SerializeField] private TweenAnimationData negativeData = new TweenAnimationData(LeanTweenType.easeShake, 1.15f, 0.15f);
 
-        [Header("Release Animation Config.")] [SerializeField]
-        private TweenAnimationData releaseData = new TweenAnimationData(LeanTweenType.easeOutBack, animDuration: 0.1f);
-
-        [Header("Negative Feedback Animation Config.")] [SerializeField]
-        private TweenAnimationData negativeData = new TweenAnimationData(LeanTweenType.easeShake, animDuration: 0.35f);
-
+        private bool givingNegativeFeedback;
+        
         public void ExecuteAnimation(TweenAnimationData animationData)
         {
+            if(givingNegativeFeedback) return;
             if (animationData.EaseType == LeanTweenType.notUsed) return;
 
             if (LeanTween.isTweening(gameObject))
@@ -30,7 +29,6 @@ namespace Utils.Tweens
         }
 
         public void OnPointerDown(PointerEventData eventData) => ExecuteAnimation(clickData);
-
         public void OnPointerUp(PointerEventData eventData) => ExecuteAnimation(releaseData);
 
         public void NegativeFeedBack()
@@ -38,11 +36,19 @@ namespace Utils.Tweens
             if (LeanTween.isTweening(gameObject))
                 LeanTween.cancel(gameObject);
 
+            givingNegativeFeedback = true;
             var duration = negativeData.Duration;
             var easeType = negativeData.EaseType;
+            var target = negativeData.Target;
+            var onComplete = negativeData.OnAnimationComplete;
 
-            LeanTween.scale(gameObject, Vector3.one * 1.05f, duration).setEase(easeType);
-            LeanTween.scale(gameObject, Vector3.one, duration).setDelay(duration).setEase(easeType);
+            LeanTween.scale(gameObject, Vector3.one * target, duration).setEase(easeType);
+            LeanTween.scale(gameObject, Vector3.one, duration).setDelay(duration).setEase(easeType)
+                .setOnComplete(() => 
+                { 
+                    givingNegativeFeedback = false;
+                    onComplete?.Invoke(); 
+                });
         }
     }
 }

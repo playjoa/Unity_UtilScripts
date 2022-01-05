@@ -2,6 +2,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Utils.Tools;
 
 namespace Utils.Animations
 {
@@ -48,7 +49,7 @@ namespace Utils.Animations
             countingCoroutine = StartCoroutine(CountText(newValue));
         }
 
-        private void UpdateTextView(int count) => text.SetText(prefixText + count.ToString(NUMBER_FORMAT) + suffixText);
+        private void UpdateTextView(int count) => text.SetCustomText(count.ToString(NUMBER_FORMAT), prefixText, suffixText);
         
         private IEnumerator CountText(int newValue)
         {
