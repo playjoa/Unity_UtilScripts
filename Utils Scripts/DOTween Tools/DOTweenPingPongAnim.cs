@@ -1,21 +1,22 @@
+using DG.Tweening;
 using UnityEngine;
 
-namespace Utils.Tweens
+namespace Utils.DOTweens
 {
-    public class LeanTweenPingPongMove : MonoBehaviour
+    public class DOTweenPingPongAnim : MonoBehaviour
     {
         [Header("Animation Configuration")]
         [SerializeField] private PingPongDirection pingPongDirection = PingPongDirection.UpDown;
         [SerializeField] private float distanceToPingPong = 35;
         [SerializeField] private float pingPongDuration = 0.75f;
-        [SerializeField] private LeanTweenType easeType = LeanTweenType.easeInOutSine;
+        [SerializeField] private Ease easeType = Ease.InOutSine;
         [SerializeField] private bool activateOnEnable = true;
 
-        private Vector3 localStartingPosition;
+        private Vector3 _localStartingPosition;
 
         private void Awake()
         {
-            localStartingPosition = transform.localPosition;
+            _localStartingPosition = transform.localPosition;
         }
 
         private void OnEnable()
@@ -34,16 +35,16 @@ namespace Utils.Tweens
             switch (pingPongDirection)
             {
                 case PingPongDirection.UpDown:
-                    transform.localPosition = new Vector3(localStartingPosition.x,
-                        localStartingPosition.y - distanceToPingPong / 2f, localStartingPosition.z);
+                    transform.localPosition = new Vector3(_localStartingPosition.x,
+                        _localStartingPosition.y - distanceToPingPong / 2f, _localStartingPosition.z);
                     break;
                 case PingPongDirection.LeftRight:
-                    transform.localPosition = new Vector3(localStartingPosition.x - distanceToPingPong / 2f,
-                        localStartingPosition.y, localStartingPosition.z);
+                    transform.localPosition = new Vector3(_localStartingPosition.x - distanceToPingPong / 2f,
+                        _localStartingPosition.y, _localStartingPosition.z);
                     break;
                 case PingPongDirection.FrontBack:
-                    transform.localPosition = new Vector3(localStartingPosition.x,
-                        localStartingPosition.y, localStartingPosition.z - distanceToPingPong / 2f);
+                    transform.localPosition = new Vector3(_localStartingPosition.x,
+                        _localStartingPosition.y, _localStartingPosition.z - distanceToPingPong / 2f);
                     break;
                 default:
                     Debug.LogError("Ping Ping Type Not registered");
@@ -54,20 +55,20 @@ namespace Utils.Tweens
         public void StartAnimation()
         {
             ResetAnimation();
-            
+
             switch (pingPongDirection)
             {
                 case PingPongDirection.UpDown:
-                    LeanTween.moveLocalY(gameObject, transform.localPosition.y + distanceToPingPong, pingPongDuration)
-                        .setLoopPingPong(-1).setEase(easeType);
+                    transform.DOLocalMoveY(transform.localPosition.y + distanceToPingPong, pingPongDuration)
+                        .SetLoops(-1, LoopType.Yoyo).SetEase(easeType);
                     break;
                 case PingPongDirection.LeftRight:
-                    LeanTween.moveLocalX(gameObject,transform.localPosition.x + distanceToPingPong ,pingPongDuration)
-                        .setLoopPingPong(-1).setEase(easeType);
+                    transform.DOLocalMoveY(transform.localPosition.x + distanceToPingPong, pingPongDuration)
+                        .SetLoops(-1, LoopType.Yoyo).SetEase(easeType);
                     break;
                 case PingPongDirection.FrontBack:
-                    LeanTween.moveLocalZ(gameObject,transform.localPosition.z + distanceToPingPong ,pingPongDuration)
-                        .setLoopPingPong(-1).setEase(easeType);
+                    transform.DOLocalMoveY(transform.localPosition.z + distanceToPingPong, pingPongDuration)
+                        .SetLoops(-1, LoopType.Yoyo).SetEase(easeType);
                     break;
                 default:
                     Debug.LogError("Ping Ping Type Not registered");
@@ -83,8 +84,7 @@ namespace Utils.Tweens
 
         public void StopAnimation()
         {
-            if(LeanTween.isTweening(gameObject))
-                LeanTween.cancel(gameObject);
+            transform.DOKill();
         }
     }
 

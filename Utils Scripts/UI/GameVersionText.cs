@@ -1,5 +1,4 @@
-﻿using GameData;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Utils.UI
@@ -22,7 +21,7 @@ namespace Utils.UI
         private void WriteGameVersion()
         {
             if (!txtGameVersion) return;
-            txtGameVersion.text = StaticData.GAME_VERSION;
+            //txtGameVersion.text = StaticData.GAME_VERSION;
         }
     }
 }

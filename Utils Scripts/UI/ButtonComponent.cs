@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.Tweens;
+using Utils.DOTweens;
 
 namespace Utils.UI
 {
@@ -9,11 +9,11 @@ namespace Utils.UI
     {
         [SerializeField] private Image thisImage;
         [SerializeField] private TextMeshProUGUI thisText;
-        [SerializeField] private ButtonTweenAnimations thisButtonAnimations;
+        [SerializeField] private DOTweenButton thisButtonAnimations;
         
         public Image Image => thisImage;
         public TextMeshProUGUI Text => thisText;
-        public ButtonTweenAnimations ButtonAnimations => thisButtonAnimations;
+        public DOTweenButton ButtonAnimations => thisButtonAnimations;
 
         private const string TextName = "txtButtonInfo";
 
@@ -21,10 +21,10 @@ namespace Utils.UI
         {
             thisImage = GetComponent<Image>();
             thisText = GetComponentInChildren<TextMeshProUGUI>();
-            thisButtonAnimations = GetComponent<ButtonTweenAnimations>();
+            thisButtonAnimations = GetComponent<DOTweenButton>();
 
             if (thisButtonAnimations == null)
-                thisButtonAnimations = gameObject.AddComponent<ButtonTweenAnimations>();
+                thisButtonAnimations = gameObject.AddComponent<DOTweenButton>();
             
             if (thisText) thisText.name = TextName;
         }

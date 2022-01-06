@@ -1,31 +1,32 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Utils.Tweens.Data
+namespace Utils.DOTweens.Data
 {
     [Serializable]
-    public class TweenSlideAnimationData
+    public class DOTweenSlideAnimData
     {
         [SerializeField] private SlideDirection slideDirection = SlideDirection.Down;
-        [SerializeField] private LeanTweenType easeType = LeanTweenType.easeOutBack;
+        [SerializeField] private Ease ease = Ease.OutBack;
         [SerializeField] private float slideDelay = 0f;
         [SerializeField] private float slideDuration = 0.5f;
         [SerializeField] private Vector3 slideRectTransformTarget = Vector3.zero;
         [SerializeField] private UnityEvent onSlideComplete;
 
-        public TweenSlideAnimationData(SlideDirection slideDirection)
+        public DOTweenSlideAnimData(SlideDirection slideDirection)
         {
             this.slideDirection = slideDirection;
         }
         
-        public TweenSlideAnimationData(LeanTweenType leanTweenType)
+        public DOTweenSlideAnimData(Ease leanTween)
         {
-            easeType = leanTweenType;
+            ease = leanTween;
         }
         
         public SlideDirection Direction => slideDirection;
-        public LeanTweenType EaseType => easeType;
+        public Ease Ease => ease;
         public float Delay => slideDelay;
         public float Duration => slideDuration;
         public Vector3 Target => slideRectTransformTarget;
