@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils.Tools;
+using Utils_Scripts.Loaders.Data;
 
 namespace Utils.Loader.Controllers
 {
@@ -15,13 +16,12 @@ namespace Utils.Loader.Controllers
         public float Progress { get; private set; }
         public bool LoadingAScene { get; private set; }
 
-        public delegate void SceneLoaderHandler(string scene);
+        public delegate void SceneLoaderHandler(LoadingSceneData sceneData);
 
         public static SceneLoaderHandler OnStartedToLoadScene;
         public static SceneLoaderHandler OnSceneLoaded;
 
         private readonly List<string> scenesAvailable = new List<string>();
-        private string targetSceneToLoad;
         private readonly WaitForSeconds startUpDelay = new WaitForSeconds(0.5f);
         
         private void Awake()
@@ -54,7 +54,7 @@ namespace Utils.Loader.Controllers
             Progress = 0f;
         }
         
-        public void LoadScene(string sceneToLoad)
+        public void LoadScene(string sceneToLoad, LoadingSceneType loadingSceneType = LoadingSceneType.Standard)
         {
             if(sceneToLoad == string.Empty || LoadingAScene) return;
             if (!scenesAvailable.Contains(sceneToLoad))
@@ -64,14 +64,13 @@ namespace Utils.Loader.Controllers
             }
 
             ResetValues();
-            targetSceneToLoad = sceneToLoad;
             LoadingAScene = true;
-            StartCoroutine(LoadSceneASync(targetSceneToLoad));
+            StartCoroutine(LoadSceneASync(sceneToLoad, new LoadingSceneData(sceneToLoad, loadingSceneType)));
         }
         
-        private IEnumerator LoadSceneASync(string targetScene)
+        private IEnumerator LoadSceneASync(string targetScene, LoadingSceneData sceneData)
         {
-            OnStartedToLoadScene?.Invoke(targetScene);
+            OnStartedToLoadScene?.Invoke(sceneData);
             yield return startUpDelay;
 
             var operation = SceneManager.LoadSceneAsync(targetScene);
@@ -86,7 +85,7 @@ namespace Utils.Loader.Controllers
             }
 
             LoadingAScene = false;
-            OnSceneLoaded?.Invoke(targetScene);
+            OnSceneLoaded?.Invoke(sceneData);
         }
     }
 }

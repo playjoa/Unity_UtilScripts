@@ -6,7 +6,7 @@ namespace Utils.Tweens
 {
     public class LeanTweenerListAnimator : MonoBehaviour
     {
-        [Header("Animation Config")]
+        [Header("Animation Config:")]
         [SerializeField] private LeanTweenType easeInType = LeanTweenType.easeOutBack;
         [SerializeField] private LeanTweenType easeOutType = LeanTweenType.easeInBack;
 
@@ -14,12 +14,12 @@ namespace Utils.Tweens
         [SerializeField] private float durationOfAnim = 0.3f;
         [SerializeField] private float delayOfNextCard = 0.05f;
         
-        [Header("In Animation Callback")]
+        [Header("In Animation Callback:")]
         [SerializeField] private UnityEvent onInAnimationComplete;
-        [Header("Out Animation Callback")]
+        [Header("Out Animation Callback:")]
         [SerializeField] private UnityEvent onOutAnimationComplete;
         
-        [Header("Targets to animate")]
+        [Header("Targets to animate:")]
         [SerializeField] private List<GameObject> transformChildrenToAnimate  = new List<GameObject>();
 
         private bool HasTargetsToAnimate => transformChildrenToAnimate.Count > 0;

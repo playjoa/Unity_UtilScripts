@@ -2,15 +2,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.Loader.Controllers;
+using Utils_Scripts.Loaders.Data;
 
 namespace Utils.Loader.Managers
 {
     public class LoadingScreenManager : MonoBehaviour
     {
-        [Header("Loading Screen Reference!")]
+        [Header("Loading Screen Reference:")]
         [SerializeField] private GameObject loadingScreen;
         
-        [Header("Loading Scene Feedback Info!")]
+        [Header("Loading Scene Feedback Info:")]
         [SerializeField] private Image slLoadingBar;
         [SerializeField] private TextMeshProUGUI txtPercentage;
 
@@ -29,12 +30,12 @@ namespace Utils.Loader.Managers
             SceneLoaderController.OnSceneLoaded -= FinishedLoading;
         }
 
-        private void StartedLoading(string sceneBeingLoaded)
+        private void StartedLoading(LoadingSceneData sceneBeingLoaded)
         {
             loadingScreen.SetActive(true);
         }
 
-        private void FinishedLoading(string sceneLoaded)
+        private void FinishedLoading(LoadingSceneData sceneLoaded)
         {
             loadingScreen.SetActive(false);
         }

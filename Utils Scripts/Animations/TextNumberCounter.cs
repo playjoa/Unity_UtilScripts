@@ -54,9 +54,9 @@ namespace Utils.Animations
         private IEnumerator CountText(int newValue)
         {
             var previousValue = value;
-            int stepAmount;
+            UpdateTextView(previousValue);
 
-            stepAmount = newValue - previousValue < 0 ? 
+            var stepAmount = newValue - previousValue < 0 ? 
                 Mathf.FloorToInt((newValue - previousValue) / (countFps * animDuration)) : 
                 Mathf.CeilToInt((newValue - previousValue) / (countFps * animDuration));
 

@@ -5,10 +5,10 @@ namespace Utils.Tweens
 {
     public class LeanTweenerAnimation : MonoBehaviour
     {
-        [Header("Open Animation Config.")]
+        [Header("Open Animation Config:")]
         [SerializeField] private TweenAnimationData openAnimationData = new TweenAnimationData(LeanTweenType.easeOutBack);
 
-        [Header("Close Animation Config.")] 
+        [Header("Close Animation Config:")] 
         [SerializeField] private TweenAnimationData closeAnimationData = new TweenAnimationData(LeanTweenType.easeInBack);
 
         private Vector3 initialSize;
