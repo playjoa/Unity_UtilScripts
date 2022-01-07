@@ -10,11 +10,11 @@ namespace Utils.DOTweens.Data
     {
         [SerializeField] private Ease ease;
         [SerializeField] private float animDelay = 0f;
-        [SerializeField] private float animDuration = 0.5f;
+        [SerializeField] private float animDuration = 0.35f;
         [SerializeField] [Range(0f, 1.5f)] private float animationTarget = 1f;
         [SerializeField] private UnityEvent onAnimationComplete;
         
-        public DOTweenAnimData(Ease leanTween, float animationTarget = 1f, float animDuration = 0.5f)
+        public DOTweenAnimData(Ease leanTween, float animationTarget = 1f, float animDuration = 0.35f)
         {
             ease = leanTween;
             this.animationTarget = animationTarget;

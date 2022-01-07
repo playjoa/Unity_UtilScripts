@@ -12,7 +12,7 @@ namespace Utils.DOTweens
         [SerializeField] private Ease easeOutType = Ease.InBack;
 
         [SerializeField] private float delayOfAnim = 0.05f;
-        [SerializeField] private float durationOfAnim = 0.3f;
+        [SerializeField] private float durationOfAnim = 0.35f;
         [SerializeField] private float delayOfNextCard = 0.05f;
         
         [Header("In Animation Callback:")]

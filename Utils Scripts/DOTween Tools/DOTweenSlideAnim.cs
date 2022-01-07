@@ -15,7 +15,7 @@ namespace Utils.DOTweens
         [HideInInspector] 
         [SerializeField] private RectTransform objectRect;
         
-        private readonly Dictionary<SlideDirection, Vector3> _targetDirections = new Dictionary<SlideDirection, Vector3>();
+        private readonly Dictionary<SlideDirection, Vector3> targetDirections = new Dictionary<SlideDirection, Vector3>();
 
         private void OnValidate()
         {
@@ -35,10 +35,10 @@ namespace Utils.DOTweens
             var objectWidth = rect.width;
             var objectHeight = rect.height;
 
-            _targetDirections.Add(SlideDirection.Down, new Vector3(0, - topScreen + objectHeight / 2f, 0));
-            _targetDirections.Add(SlideDirection.Up, new Vector3(0, topScreen + objectHeight / 2f, 0));
-            _targetDirections.Add(SlideDirection.Left, new Vector3(- screenWidth + objectWidth / 2f, 0, 0));
-            _targetDirections.Add(SlideDirection.Right, new Vector3(screenWidth + objectWidth / 2f, 0, 0));
+            targetDirections.Add(SlideDirection.Down, new Vector3(0, - topScreen + objectHeight / 2f, 0));
+            targetDirections.Add(SlideDirection.Up, new Vector3(0, topScreen + objectHeight / 2f, 0));
+            targetDirections.Add(SlideDirection.Left, new Vector3(- screenWidth + objectWidth / 2f, 0, 0));
+            targetDirections.Add(SlideDirection.Right, new Vector3(screenWidth + objectWidth / 2f, 0, 0));
         }
 
         private void OnEnable()
@@ -48,7 +48,7 @@ namespace Utils.DOTweens
 
         public void SlideIn()
         {
-            objectRect.localPosition = _targetDirections[slideAnimationData.Direction];
+            objectRect.localPosition = targetDirections[slideAnimationData.Direction];
             
             transform.DOLocalMove(slideAnimationData.Target, slideAnimationData.Duration)
                 .SetDelay(slideAnimationData.Delay).SetEase(slideAnimationData.Ease)
@@ -57,7 +57,7 @@ namespace Utils.DOTweens
 
         public void SlideOut()
         {
-            transform.DOLocalMove(_targetDirections[slideOutData.Direction], slideOutData.Duration)
+            transform.DOLocalMove(targetDirections[slideOutData.Direction], slideOutData.Duration)
                 .SetDelay(slideAnimationData.Delay).SetEase(slideAnimationData.Ease)
                 .OnComplete(() => slideOutData.SlideComplete?.Invoke());
         }

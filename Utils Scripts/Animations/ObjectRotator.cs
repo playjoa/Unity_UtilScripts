@@ -5,7 +5,6 @@ namespace Utils.Animations
     public class ObjectRotator : MonoBehaviour
     {
         [SerializeField] private bool rotateX = false, rotateY = false, rotateZ = true;
-
         [SerializeField] private float velRotation = 300f;
 
         private void Update()

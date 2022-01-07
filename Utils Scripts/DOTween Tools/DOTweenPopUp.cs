@@ -9,7 +9,7 @@ namespace Utils.DOTweens
         [Header("Open PopUp Config:")]
         [SerializeField] private Ease typePopUpAnim = Ease.OutBack;
         [SerializeField] private float delayOfOpenAnim = 0.05f;
-        [SerializeField] private float durationOfOpenAnim = 0.3f;
+        [SerializeField] private float durationOfOpenAnim = 0.35f;
         [SerializeField] private UnityEvent OnPopUpOpened;
         
         [Header("Close PopUp Config:")]
@@ -17,17 +17,17 @@ namespace Utils.DOTweens
         [SerializeField] private float delayToClosePopUp = 3f;
         [SerializeField] private UnityEvent OnPopUpClosed;
 
-        private Vector3 _originalLocalScale;
+        private Vector3 originalLocalScale;
 
         private void Awake() => SaveOriginalLocalScale();
         private void OnEnable() => AnimatePopUp();
-        private void SaveOriginalLocalScale() => _originalLocalScale = transform.localScale;
+        private void SaveOriginalLocalScale() => originalLocalScale = transform.localScale;
 
         private void AnimatePopUp()
         {
             SetSizeToZero();
 
-            transform.DOScale(_originalLocalScale, durationOfOpenAnim)
+            transform.DOScale(originalLocalScale, durationOfOpenAnim)
                 .SetDelay(delayOfOpenAnim).SetEase(typePopUpAnim)
                 .OnComplete(HandlePopUpOpened);
             

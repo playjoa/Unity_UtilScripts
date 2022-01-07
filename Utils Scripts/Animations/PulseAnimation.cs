@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace Utils.Animations
 {
@@ -18,6 +19,8 @@ namespace Utils.Animations
 
         private void Animate()
         {
+            if (DOTween.IsTweening(gameObject.transform)) return;
+
             var anim = baseSize + Mathf.Sin(Time.time * 5.5f) * baseSize / 30f;
             transform.localScale = Vector3.one * anim;
         }

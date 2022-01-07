@@ -11,7 +11,7 @@ namespace Utils.DOTweens.Data
         [SerializeField] private SlideDirection slideDirection = SlideDirection.Down;
         [SerializeField] private Ease ease = Ease.OutBack;
         [SerializeField] private float slideDelay = 0f;
-        [SerializeField] private float slideDuration = 0.5f;
+        [SerializeField] private float slideDuration = 0.35f;
         [SerializeField] private Vector3 slideRectTransformTarget = Vector3.zero;
         [SerializeField] private UnityEvent onSlideComplete;
 

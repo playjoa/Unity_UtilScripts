@@ -12,11 +12,11 @@ namespace Utils.DOTweens
         [SerializeField] private Ease easeType = Ease.InOutSine;
         [SerializeField] private bool activateOnEnable = true;
 
-        private Vector3 _localStartingPosition;
+        private Vector3 localStartingPosition;
 
         private void Awake()
         {
-            _localStartingPosition = transform.localPosition;
+            localStartingPosition = transform.localPosition;
         }
 
         private void OnEnable()
@@ -35,16 +35,16 @@ namespace Utils.DOTweens
             switch (pingPongDirection)
             {
                 case PingPongDirection.UpDown:
-                    transform.localPosition = new Vector3(_localStartingPosition.x,
-                        _localStartingPosition.y - distanceToPingPong / 2f, _localStartingPosition.z);
+                    transform.localPosition = new Vector3(localStartingPosition.x,
+                        localStartingPosition.y - distanceToPingPong / 2f, localStartingPosition.z);
                     break;
                 case PingPongDirection.LeftRight:
-                    transform.localPosition = new Vector3(_localStartingPosition.x - distanceToPingPong / 2f,
-                        _localStartingPosition.y, _localStartingPosition.z);
+                    transform.localPosition = new Vector3(localStartingPosition.x - distanceToPingPong / 2f,
+                        localStartingPosition.y, localStartingPosition.z);
                     break;
                 case PingPongDirection.FrontBack:
-                    transform.localPosition = new Vector3(_localStartingPosition.x,
-                        _localStartingPosition.y, _localStartingPosition.z - distanceToPingPong / 2f);
+                    transform.localPosition = new Vector3(localStartingPosition.x,
+                        localStartingPosition.y, localStartingPosition.z - distanceToPingPong / 2f);
                     break;
                 default:
                     Debug.LogError("Ping Ping Type Not registered");
