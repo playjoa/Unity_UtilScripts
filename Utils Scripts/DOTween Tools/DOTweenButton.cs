@@ -14,11 +14,14 @@ namespace Utils.DOTweens
         [SerializeField] private DOTweenAnimData releaseData = new DOTweenAnimData(Ease.OutBack, animDuration: 0.1f);
         [SerializeField] private DOTweenAnimData negativeData = new DOTweenAnimData(Ease.InBack, 1.15f, 0.15f);
 
-        private bool _givingNegativeFeedback;
+        private bool givingNegativeFeedback;
+        
+        public void OnPointerDown(PointerEventData eventData) => ExecuteAnimation(clickData);
+        public void OnPointerUp(PointerEventData eventData) => ExecuteAnimation(releaseData);
         
         public void ExecuteAnimation(DOTweenAnimData animationData)
         {
-            if (_givingNegativeFeedback) return;
+            if (givingNegativeFeedback) return;
             if (animationData.Ease == Ease.Unset) return;
                 
             transform.DOKill();
@@ -27,17 +30,14 @@ namespace Utils.DOTweens
                 .SetDelay(animationData.Delay).SetEase(animationData.Ease)
                 .OnComplete(() => animationData.OnAnimationComplete?.Invoke());
         }
-
-        public void OnPointerDown(PointerEventData eventData) => ExecuteAnimation(clickData);
-        public void OnPointerUp(PointerEventData eventData) => ExecuteAnimation(releaseData);
-
+        
         public void NegativeFeedBack()
         {
-            if (_givingNegativeFeedback) return;
+            if (givingNegativeFeedback) return;
             
             transform.DOKill();
 
-            _givingNegativeFeedback = true;
+            givingNegativeFeedback = true;
             var duration = negativeData.Duration;
             var easeType = negativeData.Ease;
             var target = negativeData.Target;
@@ -47,7 +47,7 @@ namespace Utils.DOTweens
             transform.DOScale(Vector3.one, duration).SetDelay(duration).SetEase(easeType)
                 .OnComplete(() => 
                 { 
-                    _givingNegativeFeedback = false;
+                    givingNegativeFeedback = false;
                     onComplete?.Invoke(); 
                 });
         }

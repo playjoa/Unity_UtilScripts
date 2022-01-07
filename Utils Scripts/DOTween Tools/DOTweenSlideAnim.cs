@@ -17,16 +17,10 @@ namespace Utils.DOTweens
         
         private readonly Dictionary<SlideDirection, Vector3> targetDirections = new Dictionary<SlideDirection, Vector3>();
 
-        private void OnValidate()
-        {
-            objectRect = GetComponent<RectTransform>();
-        }
-
-        private void Awake()
-        {
-            GetDirectionsDictionary();
-        }
-
+        private void OnValidate() => objectRect = GetComponent<RectTransform>();
+        private void Awake() => GetDirectionsDictionary();
+        private void OnEnable() => SlideIn();
+        
         private void GetDirectionsDictionary()
         {
             var topScreen = Screen.currentResolution.height;
@@ -40,12 +34,7 @@ namespace Utils.DOTweens
             targetDirections.Add(SlideDirection.Left, new Vector3(- screenWidth + objectWidth / 2f, 0, 0));
             targetDirections.Add(SlideDirection.Right, new Vector3(screenWidth + objectWidth / 2f, 0, 0));
         }
-
-        private void OnEnable()
-        {
-            SlideIn();
-        }
-
+        
         public void SlideIn()
         {
             objectRect.localPosition = targetDirections[slideAnimationData.Direction];

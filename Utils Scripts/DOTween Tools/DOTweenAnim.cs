@@ -12,24 +12,17 @@ namespace Utils.DOTweens
         [Header("Close Animation Config:")] 
         [SerializeField] private DOTweenAnimData closeAnimationData = new DOTweenAnimData(Ease.InBack);
 
-        private Vector3 _initialSize;
+        private Vector3 initialSize;
 
-        private void Awake()
-        {
-            GetInitialSize();
-        }
-
-        private void OnEnable()
-        {
-            OpenAnimation();
-        }
+        private void Awake() => GetInitialSize();
+        private void OnEnable() => OpenAnimation();
 
         public void OpenAnimation()
         {
             if (openAnimationData.Ease == Ease.Unset) return;
             
             transform.localScale = Vector3.zero;
-            transform.DOScale(_initialSize, openAnimationData.Duration)
+            transform.DOScale(initialSize, openAnimationData.Duration)
                 .SetDelay(openAnimationData.Delay).SetEase(openAnimationData.Ease)
                 .OnComplete(() => openAnimationData.OnAnimationComplete?.Invoke());
         }
@@ -49,7 +42,7 @@ namespace Utils.DOTweens
             closeAnimationData.OnAnimationComplete?.Invoke();
         }
 
-        private void GetInitialSize() => _initialSize = transform.localScale;
-        private void ResetCardSize() => transform.localScale = _initialSize;
+        private void GetInitialSize() => initialSize = transform.localScale;
+        private void ResetCardSize() => transform.localScale = initialSize;
     }
 }

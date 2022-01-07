@@ -22,6 +22,7 @@ namespace Utils.DOTweens
         private void Awake() => SaveOriginalLocalScale();
         private void OnEnable() => AnimatePopUp();
         private void SaveOriginalLocalScale() => originalLocalScale = transform.localScale;
+        private void SetSizeToZero() => transform.localScale = Vector3.zero;
 
         private void AnimatePopUp()
         {
@@ -33,9 +34,7 @@ namespace Utils.DOTweens
             
             Invoke(nameof(CloseAnimation), delayToClosePopUp);
         }
-
-        private void SetSizeToZero() => transform.localScale = Vector3.zero;
-
+        
         private void CloseAnimation()
         {
             transform.DOScale(Vector3.zero, durationOfOpenAnim)
@@ -43,10 +42,7 @@ namespace Utils.DOTweens
                 .OnComplete(HandlePopUpClosed);
         }
 
-        private void HandlePopUpOpened()
-        {
-            OnPopUpOpened?.Invoke();
-        }
+        private void HandlePopUpOpened() => OnPopUpOpened?.Invoke();
 
         private void HandlePopUpClosed()
         {

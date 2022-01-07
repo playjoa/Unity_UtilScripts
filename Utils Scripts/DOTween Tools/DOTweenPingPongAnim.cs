@@ -14,10 +14,7 @@ namespace Utils.DOTweens
 
         private Vector3 localStartingPosition;
 
-        private void Awake()
-        {
-            localStartingPosition = transform.localPosition;
-        }
+        private void Awake() => localStartingPosition = transform.localPosition;
 
         private void OnEnable()
         {
@@ -25,10 +22,7 @@ namespace Utils.DOTweens
                 StartAnimation();
         }
 
-        private void OnDisable()
-        {
-            StopAnimation();
-        }
+        private void OnDisable() => StopAnimation();
 
         private void ResetTransform()
         {
@@ -82,10 +76,7 @@ namespace Utils.DOTweens
             ResetTransform();
         }
 
-        public void StopAnimation()
-        {
-            transform.DOKill();
-        }
+        public void StopAnimation() => transform.DOKill();
     }
 
     public enum PingPongDirection

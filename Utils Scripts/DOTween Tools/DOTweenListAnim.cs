@@ -24,16 +24,9 @@ namespace Utils.DOTweens
         [SerializeField] private List<Transform> transformChildrenToAnimate  = new List<Transform>();
 
         private bool HasTargetsToAnimate => transformChildrenToAnimate.Count > 0;
-        
-        private void OnValidate()
-        {
-            transformChildrenToAnimate = GetChildren();
-        }
 
-        private void OnEnable()
-        {
-            AnimateListIn();
-        }
+        private void OnValidate() => transformChildrenToAnimate = GetChildren();
+        private void OnEnable() => AnimateListIn();
 
         private List<Transform> GetChildren()
         {
