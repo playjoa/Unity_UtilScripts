@@ -57,11 +57,11 @@ namespace Utils.DOTweens
                         .SetLoops(-1, LoopType.Yoyo).SetEase(easeType);
                     break;
                 case PingPongDirection.LeftRight:
-                    transform.DOLocalMoveY(transform.localPosition.x + distanceToPingPong, pingPongDuration)
+                    transform.DOLocalMoveX(transform.localPosition.x + distanceToPingPong, pingPongDuration)
                         .SetLoops(-1, LoopType.Yoyo).SetEase(easeType);
                     break;
                 case PingPongDirection.FrontBack:
-                    transform.DOLocalMoveY(transform.localPosition.z + distanceToPingPong, pingPongDuration)
+                    transform.DOLocalMoveZ(transform.localPosition.z + distanceToPingPong, pingPongDuration)
                         .SetLoops(-1, LoopType.Yoyo).SetEase(easeType);
                     break;
                 default:
