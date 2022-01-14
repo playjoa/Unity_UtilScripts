@@ -10,10 +10,5 @@ namespace Utils.Tools
             var seconds = Mathf.FloorToInt(timerCount - minutes * 60);
             return $"{minutes:0}:{seconds:00}"; 
         }
-
-        public static string FloatToPercentage(float progress)
-        {
-            return (progress * 100f).ToString("F2") + "% ";
-        }
     }
 }
