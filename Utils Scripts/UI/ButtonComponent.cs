@@ -15,7 +15,7 @@ namespace Utils.UI
         public TextMeshProUGUI Text => thisText;
         public DOTweenButton ButtonAnimations => thisButtonAnimations;
 
-        private const string TextName = "txtButtonInfo";
+        private const string TextName = "ButtonInfoText";
 
         private void OnValidate()
         {

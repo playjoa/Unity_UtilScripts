@@ -21,6 +21,7 @@ namespace Utils.EditorTools
             fixedWidth = ButtonWidth,
             fixedHeight = ButtonHeight,
             fontStyle = FontStyle.Bold,
+            alignment = TextAnchor.MiddleCenter
         };
 
         private static GUIContent OpenProjectIcon => _openProjectIcon ??= new GUIContent("C#", "Open C# Project");
