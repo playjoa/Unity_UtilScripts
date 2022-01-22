@@ -30,7 +30,7 @@ namespace Utils.DOTweens
         public void CloseAnimation()
         {
             if (openAnimationData.Ease == Ease.Unset)  return;
-
+            
             transform.DOScale(Vector3.zero, closeAnimationData.Duration)
                 .SetDelay(closeAnimationData.Delay).SetEase(closeAnimationData.Ease)
                 .OnComplete(ToDoAfterCloseAnimation);

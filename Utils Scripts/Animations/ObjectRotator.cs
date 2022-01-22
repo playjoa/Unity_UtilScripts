@@ -7,6 +7,10 @@ namespace Utils.Animations
         [SerializeField] private bool rotateX = false, rotateY = false, rotateZ = true;
         [SerializeField] private float velRotation = 300f;
 
+        private Transform targetTransform;
+
+        private void Awake() => targetTransform = transform;
+
         private void Update()
         {
             RotateObject();
@@ -15,15 +19,16 @@ namespace Utils.Animations
         private void RotateObject()
         {
             if (rotateX)
-                RotateTransform(new Vector3(velRotation * Time.deltaTime, 0, 0));
+                RotateTransform(targetTransform, new Vector3(velRotation * Time.deltaTime, 0, 0));
 
             if (rotateY)
-                RotateTransform(new Vector3(0, velRotation * Time.deltaTime, 0));
+                RotateTransform(targetTransform, new Vector3(0, velRotation * Time.deltaTime, 0));
 
             if (rotateZ)
-                RotateTransform(new Vector3(0, 0, velRotation * Time.deltaTime));
+                RotateTransform(targetTransform, new Vector3(0, 0, velRotation * Time.deltaTime));
         }
 
-        private void RotateTransform(Vector3 rotationToSet) => transform.Rotate(rotationToSet, Space.Self);
+        private static void RotateTransform(Transform target, Vector3 rotationToSet) =>
+            target.Rotate(rotationToSet, Space.Self);
     }
 }

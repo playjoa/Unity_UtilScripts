@@ -9,7 +9,7 @@ namespace Utils.DOTweens
     public class DOTweenSlideAnim : MonoBehaviour
     {
         [Header("Slide In Config")] 
-        [SerializeField] private DOTweenSlideAnimData slideAnimationData = new DOTweenSlideAnimData(Ease.OutBack);
+        [SerializeField] private DOTweenSlideAnimData slideInData = new DOTweenSlideAnimData(Ease.OutBack, true);
         [SerializeField] private DOTweenSlideAnimData slideOutData = new DOTweenSlideAnimData(Ease.InBack);
 
         [HideInInspector] 
@@ -37,17 +37,19 @@ namespace Utils.DOTweens
         
         public void SlideIn()
         {
-            objectRect.localPosition = targetDirections[slideAnimationData.Direction];
-            
-            transform.DOLocalMove(slideAnimationData.Target, slideAnimationData.Duration)
-                .SetDelay(slideAnimationData.Delay).SetEase(slideAnimationData.Ease)
-                .OnComplete(() => slideAnimationData.SlideComplete?.Invoke());
+            objectRect.localPosition = targetDirections[slideInData.Direction];
+        
+            objectRect.DOAnchorPos(slideInData.Target, slideInData.Duration)
+                .SetDelay(slideInData.Delay).SetEase(slideInData.Ease)
+                .OnComplete(() => slideInData.SlideComplete?.Invoke());
         }
 
         public void SlideOut()
         {
-            transform.DOLocalMove(targetDirections[slideOutData.Direction], slideOutData.Duration)
-                .SetDelay(slideAnimationData.Delay).SetEase(slideAnimationData.Ease)
+            var targetToSlideTo = slideOutData.UseTarget ? slideOutData.Target : targetDirections[slideOutData.Direction];
+            
+            objectRect.DOAnchorPos(targetToSlideTo, slideOutData.Duration)
+                .SetDelay(slideInData.Delay).SetEase(slideInData.Ease)
                 .OnComplete(() => slideOutData.SlideComplete?.Invoke());
         }
     }

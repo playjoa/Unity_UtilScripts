@@ -12,6 +12,7 @@ namespace Utils.DOTweens.Data
         [SerializeField] private Ease ease = Ease.OutBack;
         [SerializeField] private float slideDelay = 0f;
         [SerializeField] private float slideDuration = 0.35f;
+        [SerializeField] private bool useTarget;
         [SerializeField] private Vector3 slideRectTransformTarget = Vector3.zero;
         [SerializeField] private UnityEvent onSlideComplete;
 
@@ -20,15 +21,17 @@ namespace Utils.DOTweens.Data
             this.slideDirection = slideDirection;
         }
         
-        public DOTweenSlideAnimData(Ease leanTween)
+        public DOTweenSlideAnimData(Ease leanTween, bool useTarget = false)
         {
             ease = leanTween;
+            this.useTarget = useTarget;
         }
         
         public SlideDirection Direction => slideDirection;
         public Ease Ease => ease;
         public float Delay => slideDelay;
         public float Duration => slideDuration;
+        public bool UseTarget => useTarget;
         public Vector3 Target => slideRectTransformTarget;
         public UnityEvent SlideComplete => onSlideComplete;
     }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,9 +24,10 @@ namespace Utils.DOTweens
         [Header("Targets to animate:")]
         [SerializeField] private List<Transform> transformChildrenToAnimate  = new List<Transform>();
 
-        private bool HasTargetsToAnimate => transformChildrenToAnimate.Count > 0;
+        private bool HasTargetsToAnimate => transformChildrenToAnimate.Any();
 
         private void OnValidate() => transformChildrenToAnimate = GetChildren();
+
         private void OnEnable() => AnimateListIn();
 
         private List<Transform> GetChildren()
@@ -41,7 +43,8 @@ namespace Utils.DOTweens
 
         public void AnimateListIn()
         {
-            if (!HasTargetsToAnimate) return;
+            if (!HasTargetsToAnimate)
+                transformChildrenToAnimate = GetChildren();
 
             for (var i = 0; i < transformChildrenToAnimate.Count; i++)
                 AnimateCardIn(transformChildrenToAnimate[i], delayOfNextCard * i, easeInType,
@@ -50,8 +53,9 @@ namespace Utils.DOTweens
 
         public void AnimateListOut()
         {            
-            if (!HasTargetsToAnimate) return;
-            
+            if (!HasTargetsToAnimate)
+                transformChildrenToAnimate = GetChildren();
+
             for (var i = transformChildrenToAnimate.Count - 1; i >= 0; i--)
                 AnimateCardOut(transformChildrenToAnimate[i], delayOfNextCard * i, easeInType, i == 0);
         }

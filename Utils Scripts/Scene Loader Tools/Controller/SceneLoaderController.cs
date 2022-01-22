@@ -46,7 +46,7 @@ namespace Utils.Loader.Controller
             }
         }
 
-        private float ProgressClamped(float progress) => Mathf.Clamp01(progress / .9f);
+        private static float ProgressClamped(float progress) => Mathf.Clamp01(progress / .9f);
 
         private void ResetValues()
         {
