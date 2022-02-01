@@ -77,10 +77,11 @@ namespace Utils.Tools
 
             var anchorMin = safeArea.position;
             var anchorMax = safeArea.position + safeArea.size;
-            anchorMin.x /= canvas.pixelRect.width;
-            anchorMin.y /= canvas.pixelRect.height;
-            anchorMax.x /= canvas.pixelRect.width;
-            anchorMax.y /= canvas.pixelRect.height;
+            var pixelRect = canvas.pixelRect;
+            anchorMin.x /= pixelRect.width;
+            anchorMin.y /= pixelRect.height;
+            anchorMax.x /= pixelRect.width;
+            anchorMax.y /= pixelRect.height;
 
             safeAreaTransform.anchorMin = anchorMin;
             safeAreaTransform.anchorMax = anchorMax;

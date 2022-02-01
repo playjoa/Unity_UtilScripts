@@ -7,12 +7,13 @@ namespace Utils.Tools
         [SerializeField] private Color colorOfAreaInEditor = new Color(0.5f, 0.5f, 0.5f, 0.2f);
 
         private float xRange = 10f, yRange = 10f;
-        private float OffSetValue(float valueToOffSet, float range) => valueToOffSet + Random.Range(-range, range);
+        private static float OffSetValue(float valueToOffSet, float range) => valueToOffSet + Random.Range(-range, range);
 
         private void OnDrawGizmos()
         {
             Gizmos.color = colorOfAreaInEditor;
-            Gizmos.DrawCube(transform.position, transform.localScale);
+            var transform1 = transform;
+            Gizmos.DrawCube(transform1.position, transform1.localScale);
         }
 
         private void Awake()
@@ -22,8 +23,9 @@ namespace Utils.Tools
 
         private void InitializeRangeValues()
         {
-            xRange = transform.localScale.x / 2f;
-            yRange = transform.localScale.y / 2f;
+            var localScale = transform.localScale;
+            xRange = localScale.x / 2f;
+            yRange = localScale.y / 2f;
         }
 
         ///<summary>
@@ -31,7 +33,8 @@ namespace Utils.Tools
         ///</summary>
         public Vector2 RandomLocationInsideArea()
         {
-            return new Vector3(OffSetValue(transform.position.x, xRange), OffSetValue(transform.position.y, yRange), 0);
+            var position = transform.position;
+            return new Vector3(OffSetValue(position.x, xRange), OffSetValue(position.y, yRange), 0);
         }
     }
 }

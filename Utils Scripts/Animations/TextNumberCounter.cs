@@ -25,7 +25,7 @@ namespace Utils.Animations
         private WaitForSeconds stepWaitTime = new WaitForSeconds(1f / 30f);
 
         public TextMeshProUGUI TextMeshGUI => text;
-        public Action OnAnimationComplete;
+        public event Action OnCountComplete;
 
         public void InitiateValue(int setStartingValue) => value = setStartingValue;
         
@@ -86,7 +86,7 @@ namespace Utils.Animations
                     yield return stepWaitTime;
                 }
             }
-            OnAnimationComplete?.Invoke();
+            OnCountComplete?.Invoke();
         }
     }
 }

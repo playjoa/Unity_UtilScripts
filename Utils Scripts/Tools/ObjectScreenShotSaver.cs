@@ -76,16 +76,15 @@ namespace Utils.Tools
 
         private void SaveScreenShot(byte[] screenShotBytes, int screenShotIndex)
         {
-            CheckIfLocationExists_CreateIfNecessary();
+            CreateDirectory();
 
             var path = System.IO.Path.Combine(FolderLocation, FileName(screenShotIndex));
             System.IO.File.WriteAllBytes(path, screenShotBytes);
         }
 
-        private void CheckIfLocationExists_CreateIfNecessary()
+        private void CreateDirectory()
         {
             if (System.IO.Directory.Exists(FolderLocation)) return;
-
             System.IO.Directory.CreateDirectory(FolderLocation);
         }
     }

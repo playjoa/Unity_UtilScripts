@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Utils.Loader.Controller;
-using Utils_Scripts.Loaders.Data;
+using Utils.Loaders.Data;
 
 namespace Utils.Loader.Managers
 {

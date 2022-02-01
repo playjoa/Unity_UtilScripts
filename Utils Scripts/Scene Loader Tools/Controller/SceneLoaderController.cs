@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils.Loaders.Data;
 using Utils.Tools;
-using Utils_Scripts.Loaders.Data;
 
 namespace Utils.Loader.Controller
 {
@@ -12,14 +12,15 @@ namespace Utils.Loader.Controller
     {
         public static SceneLoaderController ME { get; private set; }
         
+        public static GameScene CurrentGameScene { get; private set; }
         public string ProgressPercentage { get; private set; }
         public float Progress { get; private set; }
         public bool LoadingAScene { get; private set; }
 
         public delegate void SceneLoaderHandler(LoadingSceneData sceneData);
 
-        public static SceneLoaderHandler OnStartedToLoadScene;
-        public static SceneLoaderHandler OnSceneLoaded;
+        public static event SceneLoaderHandler OnStartedToLoadScene;
+        public static event SceneLoaderHandler OnSceneLoaded;
 
         private readonly List<string> scenesAvailable = new List<string>();
         private readonly WaitForSeconds startUpDelay = new WaitForSeconds(0.5f);
@@ -53,21 +54,24 @@ namespace Utils.Loader.Controller
             ProgressPercentage = "0%";
             Progress = 0f;
         }
-        
-        public void LoadScene(string sceneToLoad, LoadingSceneType loadingSceneType = LoadingSceneType.Standard)
+
+        public void LoadScene(GameScene targetGameScene, LoadingSceneType loadingSceneType = LoadingSceneType.Standard)
         {
-            if(sceneToLoad == string.Empty || LoadingAScene) return;
-            if (!scenesAvailable.Contains(sceneToLoad))
+            if (LoadingAScene) return;
+            
+            var sceneId = LoadingScenes.GetSceneId(targetGameScene.Equals(GameScene.ReloadCurrent) ? CurrentGameScene : targetGameScene);
+
+            if (sceneId == string.Empty || !scenesAvailable.Contains(sceneId))
             {
-                Debug.LogError($"Scene: {sceneToLoad} is not valid!");
+                Debug.LogError($"Scene Id: {sceneId} and/or GameScene {targetGameScene} is not valid!");
                 return;
             }
 
             ResetValues();
             LoadingAScene = true;
-            StartCoroutine(LoadSceneASync(sceneToLoad, new LoadingSceneData(sceneToLoad, loadingSceneType)));
+            StartCoroutine(LoadSceneASync(sceneId, new LoadingSceneData(targetGameScene, loadingSceneType)));
         }
-        
+
         private IEnumerator LoadSceneASync(string targetScene, LoadingSceneData sceneData)
         {
             OnStartedToLoadScene?.Invoke(sceneData);
@@ -85,6 +89,8 @@ namespace Utils.Loader.Controller
             }
 
             LoadingAScene = false;
+            CurrentGameScene = sceneData.GameScene;
+            
             OnSceneLoaded?.Invoke(sceneData);
         }
     }

@@ -7,7 +7,7 @@ namespace Utils.Tools
         [SerializeField] private Color GizmosColor = new Color(0.5f, 0.5f, 0.5f, 0.2f);
 
         private float xRange = 10f, yRange = 10f, zRange = 10f;
-        private float Range(float scale, float range) => scale + Random.Range(-range, range);
+        private static float Range(float scale, float range) => scale + Random.Range(-range, range);
 
         private void OnDrawGizmos()
         {

@@ -1,13 +1,13 @@
-﻿namespace Utils_Scripts.Loaders.Data
+﻿namespace Utils.Loaders.Data
 {
     public class LoadingSceneData
     {
-        public string SceneId { get; }
+        public GameScene GameScene { get; }
         public LoadingSceneType LoadingSceneType { get; }
 
-        public LoadingSceneData(string sceneId, LoadingSceneType loadingSceneType)
+        public LoadingSceneData(GameScene gameScene, LoadingSceneType loadingSceneType)
         {
-            SceneId = sceneId;
+            GameScene = gameScene;
             LoadingSceneType = loadingSceneType;
         }
     }

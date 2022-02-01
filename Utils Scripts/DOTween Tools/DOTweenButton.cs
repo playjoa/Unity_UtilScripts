@@ -12,20 +12,19 @@ namespace Utils.DOTweens
         [Header("Button Animations Config.")] 
         [SerializeField] private DOTweenAnimData clickData = new DOTweenAnimData(Ease.OutBack, 0.85f, 0.1f);
         [SerializeField] private DOTweenAnimData releaseData = new DOTweenAnimData(Ease.OutBack, animDuration: 0.1f);
-        [SerializeField] private DOTweenAnimData negativeData = new DOTweenAnimData(Ease.InBack, 1.15f, 0.15f);
 
-        private bool givingNegativeFeedback;
+        [Header("Negative Feedback Config.")] 
+        [SerializeField] private float duration = 0.5f;
+        [SerializeField] private float strength = 20f;
+        [SerializeField] private int vibrato = 30;
         
         public void OnPointerDown(PointerEventData eventData) => ExecuteAnimation(clickData);
         public void OnPointerUp(PointerEventData eventData) => ExecuteAnimation(releaseData);
         
         public void ExecuteAnimation(DOTweenAnimData animationData)
         {
-            if (givingNegativeFeedback) return;
             if (animationData.Ease == Ease.Unset) return;
-                
-            transform.DOKill();
-
+            
             transform.DOScale( Vector3.one * animationData.Target, animationData.Duration)
                 .SetDelay(animationData.Delay).SetEase(animationData.Ease)
                 .OnComplete(() => animationData.OnAnimationComplete?.Invoke());
@@ -33,23 +32,7 @@ namespace Utils.DOTweens
         
         public void NegativeFeedBack()
         {
-            if (givingNegativeFeedback) return;
-            
-            transform.DOKill();
-
-            givingNegativeFeedback = true;
-            var duration = negativeData.Duration;
-            var easeType = negativeData.Ease;
-            var target = negativeData.Target;
-            var onComplete = negativeData.OnAnimationComplete;
-
-            transform.DOScale(Vector3.one * target, duration).SetEase(easeType);
-            transform.DOScale(Vector3.one, duration).SetDelay(duration).SetEase(easeType)
-                .OnComplete(() => 
-                { 
-                    givingNegativeFeedback = false;
-                    onComplete?.Invoke(); 
-                });
+            transform.DOShakePosition(duration, strength, vibrato, fadeOut: true);
         }
     }
 }
