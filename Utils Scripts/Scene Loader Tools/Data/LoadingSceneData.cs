@@ -3,12 +3,12 @@
     public class LoadingSceneData
     {
         public GameScene GameScene { get; }
-        public LoadingSceneType LoadingSceneType { get; }
+        public LoadingScreenType LoadingScreenType { get; }
 
-        public LoadingSceneData(GameScene gameScene, LoadingSceneType loadingSceneType)
+        public LoadingSceneData(GameScene gameScene, LoadingScreenType loadingScreenType)
         {
             GameScene = gameScene;
-            LoadingSceneType = loadingSceneType;
+            LoadingScreenType = loadingScreenType;
         }
     }
 }

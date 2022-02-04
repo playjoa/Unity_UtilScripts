@@ -1,6 +1,6 @@
 ﻿namespace Utils.Loaders.Data
 {
-    public enum LoadingSceneType
+    public enum LoadingScreenType
     {
        Initial,
        Standard,

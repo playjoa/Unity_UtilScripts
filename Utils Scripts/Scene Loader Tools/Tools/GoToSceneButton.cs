@@ -7,8 +7,7 @@ namespace Utils.Loader.Tools
 {
     [RequireComponent(typeof(ButtonComponent))]
     public class GoToSceneButton : MonoBehaviour
-    { 
-        [Tooltip("Leave blank if you want to reload current scene!")]
+    {
         [Header("Scene Target")]
         [SerializeField] private GameScene targetGameScene;
         

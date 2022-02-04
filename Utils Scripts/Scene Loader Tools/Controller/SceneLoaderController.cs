@@ -55,7 +55,7 @@ namespace Utils.Loader.Controller
             Progress = 0f;
         }
 
-        public void LoadScene(GameScene targetGameScene, LoadingSceneType loadingSceneType = LoadingSceneType.Standard)
+        public void LoadScene(GameScene targetGameScene, LoadingScreenType loadingScreenType = LoadingScreenType.Standard)
         {
             if (LoadingAScene) return;
             
@@ -69,7 +69,7 @@ namespace Utils.Loader.Controller
 
             ResetValues();
             LoadingAScene = true;
-            StartCoroutine(LoadSceneASync(sceneId, new LoadingSceneData(targetGameScene, loadingSceneType)));
+            StartCoroutine(LoadSceneASync(sceneId, new LoadingSceneData(targetGameScene, loadingScreenType)));
         }
 
         private IEnumerator LoadSceneASync(string targetScene, LoadingSceneData sceneData)
