@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils.Extensions;
 using Utils.Loaders.Data;
 using Utils.Tools;
 

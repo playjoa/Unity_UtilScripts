@@ -2,6 +2,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using Utils.Extensions;
 using Utils.Tools;
 
 namespace Utils.Animations

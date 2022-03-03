@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Utils.Tools
+namespace Utils.Extensions
 {
     public static class PlayerPrefsExtension
     {
