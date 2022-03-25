@@ -12,7 +12,7 @@ namespace Utils.Loader.Controller
     public class SceneLoaderController : MonoBehaviour
     {
         public static SceneLoaderController ME { get; private set; }
-        
+
         public static GameScene CurrentGameScene { get; private set; }
         public string ProgressPercentage { get; private set; }
         public float Progress { get; private set; }
@@ -25,7 +25,7 @@ namespace Utils.Loader.Controller
 
         private readonly List<string> scenesAvailable = new List<string>();
         private readonly WaitForSeconds startUpDelay = new WaitForSeconds(0.5f);
-        
+
         private void Awake()
         {
             if (ME == null)
@@ -59,7 +59,7 @@ namespace Utils.Loader.Controller
         public void LoadScene(GameScene targetGameScene, LoadingScreenType loadingScreenType = LoadingScreenType.Standard)
         {
             if (LoadingAScene) return;
-            
+
             var sceneId = LoadingScenes.GetSceneId(targetGameScene.Equals(GameScene.ReloadCurrent) ? CurrentGameScene : targetGameScene);
 
             if (sceneId == string.Empty || !scenesAvailable.Contains(sceneId))
@@ -69,13 +69,14 @@ namespace Utils.Loader.Controller
             }
 
             ResetValues();
-            LoadingAScene = true;
             StartCoroutine(LoadSceneASync(sceneId, new LoadingSceneData(targetGameScene, loadingScreenType)));
         }
 
         private IEnumerator LoadSceneASync(string targetScene, LoadingSceneData sceneData)
         {
             OnStartedToLoadScene?.Invoke(sceneData);
+            LoadingAScene = true;
+            
             yield return startUpDelay;
 
             var operation = SceneManager.LoadSceneAsync(targetScene);
@@ -91,7 +92,7 @@ namespace Utils.Loader.Controller
 
             LoadingAScene = false;
             CurrentGameScene = sceneData.GameScene;
-            
+
             OnSceneLoaded?.Invoke(sceneData);
         }
     }
