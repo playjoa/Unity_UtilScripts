@@ -6,28 +6,28 @@ namespace Utils.Tools
 {
     public class SimpleObjectPool<TPoolObject> where TPoolObject : MonoBehaviour
     {
-        private readonly TPoolObject poolObjectModel;
-        private readonly List<TPoolObject> objectPool = new List<TPoolObject>();
-        private readonly RectTransform rectTransformTarget;
-        private readonly Transform transformTarget;
+        private readonly TPoolObject _poolObjectModel;
+        private readonly List<TPoolObject> _objectPool = new List<TPoolObject>();
+        private readonly RectTransform _rectTransformTarget;
+        private readonly Transform _transformTarget;
 
-        public SimpleObjectPool(TPoolObject poolObjectModel) => this.poolObjectModel = poolObjectModel;
+        public SimpleObjectPool(TPoolObject poolObjectModel) => this._poolObjectModel = poolObjectModel;
         
         public SimpleObjectPool(TPoolObject poolObjectModel, RectTransform rectTransformTarget)
         {
-            this.poolObjectModel = poolObjectModel;
-            this.rectTransformTarget = rectTransformTarget;
+            this._poolObjectModel = poolObjectModel;
+            this._rectTransformTarget = rectTransformTarget;
         }
         
         public SimpleObjectPool(TPoolObject poolObjectModel, Transform transformTarget)
         {
-            this.poolObjectModel = poolObjectModel;
-            this.transformTarget = transformTarget;
+            this._poolObjectModel = poolObjectModel;
+            this._transformTarget = transformTarget;
         }
 
         public TPoolObject RequestObject(bool objectActive = false)
         {
-            var targetObject = objectPool.FirstOrDefault(t => !t.gameObject.activeSelf);
+            var targetObject = _objectPool.FirstOrDefault(t => !t.gameObject.activeSelf);
 
             if (targetObject != null)
             {
@@ -36,7 +36,6 @@ namespace Utils.Tools
             }
 
             var newPoolObject = InstantiateInPool();
-            objectPool.Add(newPoolObject);
             return newPoolObject;
         }
         
@@ -49,30 +48,30 @@ namespace Utils.Tools
 
         public void DeactivatePool()
         {
-            foreach (var poolObject in objectPool)
+            foreach (var poolObject in _objectPool)
                 poolObject.gameObject.SetActive(false);
         }
 
         public void ClearPool()
         {
-            foreach (var poolObject in objectPool)
+            foreach (var poolObject in _objectPool)
                 Object.Destroy(poolObject);
             
-            objectPool.Clear();
+            _objectPool.Clear();
         }
 
         private TPoolObject InstantiateInPool()
         {
             TPoolObject newObject;
 
-            if (rectTransformTarget != null)
-                newObject = Object.Instantiate(poolObjectModel, rectTransformTarget);
-            else if (transformTarget != null)
-                newObject = Object.Instantiate(poolObjectModel, transformTarget);
+            if (_rectTransformTarget != null)
+                newObject = Object.Instantiate(_poolObjectModel, _rectTransformTarget);
+            else if (_transformTarget != null)
+                newObject = Object.Instantiate(_poolObjectModel, _transformTarget);
             else
-                newObject = Object.Instantiate(poolObjectModel);
+                newObject = Object.Instantiate(_poolObjectModel);
             
-            objectPool.Add(newObject);
+            _objectPool.Add(newObject);
             return newObject;
         }
     }

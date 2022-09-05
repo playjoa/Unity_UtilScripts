@@ -1,10 +1,10 @@
 ﻿using DG.Tweening;
+using UI.Animations.Data;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Utils.DOTweens.Data;
 using Utils.UI;
 
-namespace Utils.DOTweens
+namespace Utils.DOTweens.Components
 {
     [RequireComponent(typeof(ButtonComponent))]
     public class DOTweenButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -27,7 +27,7 @@ namespace Utils.DOTweens
             
             transform.DOScale( Vector3.one * animationData.Target, animationData.Duration)
                 .SetDelay(animationData.Delay).SetEase(animationData.Ease)
-                .OnComplete(() => animationData.OnAnimationComplete?.Invoke());
+                .OnComplete(() => animationData.OnComplete?.Invoke());
         }
         
         public void NegativeFeedBack()

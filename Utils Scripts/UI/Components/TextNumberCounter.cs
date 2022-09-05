@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace Playgig.UI
+namespace Utils.UI
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class TextNumberCounter : MonoBehaviour

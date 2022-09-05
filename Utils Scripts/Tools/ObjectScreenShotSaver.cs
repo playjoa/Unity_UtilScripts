@@ -6,7 +6,7 @@ namespace Utils.Tools
     public class ObjectScreenShotSaver : MonoBehaviour
     {
         [Header("File Settings")] 
-        [SerializeField] private string directoryLocation = "C:/Users/joaoc/Desktop/";
+        [SerializeField] private string directoryLocation = "C:/Users/MyUser/Desktop/";
         [SerializeField] private string folderName = "SkinPhotos";
         [SerializeField] private bool useGameObjectName;
         [SerializeField] private string prefixFileName = "img_";
@@ -17,7 +17,7 @@ namespace Utils.Tools
         [Header("Objects to Screenshot")] 
         [SerializeField] private GameObject[] objectsToScreenShot;
         
-        private GameObject currentObjectToScreenShot;
+        private GameObject _currentObjectToScreenShot;
         private const string TypeOfFile = ".png";
 
         private WaitForSeconds WaitForShutter => new WaitForSeconds(shutterTime);
@@ -26,7 +26,7 @@ namespace Utils.Tools
         private string FileName(int numberFile)
         {
             if (useGameObjectName)
-                return currentObjectToScreenShot.name + TypeOfFile;
+                return _currentObjectToScreenShot.name + TypeOfFile;
             
             return prefixFileName + numberFile + TypeOfFile;
         }
@@ -57,8 +57,8 @@ namespace Utils.Tools
 
             for (var i = 0; i < objectsToScreenShot.Length; i++)
             {
-                currentObjectToScreenShot = objectsToScreenShot[i];
-                currentObjectToScreenShot.SetActive(true);
+                _currentObjectToScreenShot = objectsToScreenShot[i];
+                _currentObjectToScreenShot.SetActive(true);
                 yield return WaitForShutter;
                 
                 yield return new WaitForEndOfFrame();
@@ -70,7 +70,7 @@ namespace Utils.Tools
                 Destroy(textureFromGameView);
                 SaveScreenShot(textureGameViewBytes, i);
                 
-                currentObjectToScreenShot.SetActive(false);
+                _currentObjectToScreenShot.SetActive(false);
             }
         }
 

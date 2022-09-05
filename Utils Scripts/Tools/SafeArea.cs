@@ -1,46 +1,53 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Utils.Tools
 {
     [RequireComponent(typeof(Canvas))]
     public class SafeArea : MonoBehaviour
     {
-        public static UnityEvent onOrientationChange = new UnityEvent();
-        public static UnityEvent onResolutionChange = new UnityEvent();
-        public static bool isLandscape { get; private set; }
+        public static event Action OnOrientationChange;
+        public static event Action OnResolutionChange; 
+        public static bool InLandscape { get; private set; }
 
-        private static List<SafeArea> helpers = new List<SafeArea>();
+        private static readonly List<SafeArea> Helpers = new List<SafeArea>();
 
-        private static bool screenChangeVarsInitialized = false;
-        private static ScreenOrientation lastOrientation = ScreenOrientation.Portrait;
-        private static Vector2 lastResolution = Vector2.zero;
-        private static Rect lastSafeArea = Rect.zero;
+        private static bool _screenChangeVarsInitialized = false;
+        private static ScreenOrientation _lastOrientation = ScreenOrientation.Portrait;
+        private static Vector2 _lastResolution = Vector2.zero;
+        private static Rect _lastSafeArea = Rect.zero;
 
-        private Canvas canvas;
-        private RectTransform rectTransform;
+        private Canvas _canvas;
+        private RectTransform _rectTransform;
+        private RectTransform _safeAreaTransform;
 
-        private RectTransform safeAreaTransform;
-
+        private const string SAFE_OBJECT_NAME = "SafeArea";
+        
         private void Awake()
         {
-            if (!helpers.Contains(this))
-                helpers.Add(this);
+            if (!Helpers.Contains(this))
+                Helpers.Add(this);
 
-            canvas = GetComponent<Canvas>();
-            rectTransform = GetComponent<RectTransform>();
+            _canvas = GetComponent<Canvas>();
+            _rectTransform = GetComponent<RectTransform>();
 
-            safeAreaTransform = transform.Find("SafeArea") as RectTransform;
+            _safeAreaTransform = transform.Find(SAFE_OBJECT_NAME) as RectTransform;
 
-            if (screenChangeVarsInitialized) return;
-            lastOrientation = Screen.orientation;
-            lastResolution.x = Screen.width;
-            lastResolution.y = Screen.height;
-            lastSafeArea = Screen.safeArea;
+            if (_safeAreaTransform == null)
+            {
+                Debug.LogError($"Could not find SafeArea Holder in object: {gameObject.name}. Please add a SafeArea named object to hold objects!");
+                return;
+            }
 
-            screenChangeVarsInitialized = true;
+            if (_screenChangeVarsInitialized) return;
+            _lastOrientation = Screen.orientation;
+            _lastResolution.x = Screen.width;
+            _lastResolution.y = Screen.height;
+            _lastSafeArea = Screen.safeArea;
+
+            _screenChangeVarsInitialized = true;
         }
 
         private void Start()
@@ -50,94 +57,95 @@ namespace Utils.Tools
 
         private void Update()
         {
-            if (helpers[0] != this)
+            if (Helpers[0] != this)
                 return;
 
             if (Application.isMobilePlatform)
             {
-                if (Screen.orientation != lastOrientation)
+                if (Screen.orientation != _lastOrientation)
                     OrientationChanged();
 
-                if (Screen.safeArea != lastSafeArea)
+                if (Screen.safeArea != _lastSafeArea)
                     SafeAreaChanged();
             }
             else
             {
-                if (Screen.width != lastResolution.x || Screen.height != lastResolution.y)
+                if (Screen.width != _lastResolution.x || Screen.height != _lastResolution.y)
                     ResolutionChanged();
             }
         }
 
         private void ApplySafeArea()
         {
-            if (safeAreaTransform == null)
+            if (_safeAreaTransform == null)
                 return;
 
             var safeArea = Screen.safeArea;
 
             var anchorMin = safeArea.position;
             var anchorMax = safeArea.position + safeArea.size;
-            var pixelRect = canvas.pixelRect;
+            var pixelRect = _canvas.pixelRect;
             anchorMin.x /= pixelRect.width;
             anchorMin.y /= pixelRect.height;
             anchorMax.x /= pixelRect.width;
             anchorMax.y /= pixelRect.height;
 
-            safeAreaTransform.anchorMin = anchorMin;
-            safeAreaTransform.anchorMax = anchorMax;
+            _safeAreaTransform.anchorMin = anchorMin;
+            _safeAreaTransform.anchorMax = anchorMax;
         }
 
         private void OnDestroy()
         {
-            if (helpers != null && helpers.Contains(this))
-                helpers.Remove(this);
+            if (Helpers != null && Helpers.Contains(this))
+                Helpers.Remove(this);
         }
 
         private static void OrientationChanged()
         {
-            lastOrientation = Screen.orientation;
-            lastResolution.x = Screen.width;
-            lastResolution.y = Screen.height;
+            _lastOrientation = Screen.orientation;
+            _lastResolution.x = Screen.width;
+            _lastResolution.y = Screen.height;
 
-            isLandscape = lastOrientation == ScreenOrientation.LandscapeLeft ||
-                          lastOrientation == ScreenOrientation.LandscapeRight ||
-                          lastOrientation == ScreenOrientation.Landscape;
-            onOrientationChange.Invoke();
+            InLandscape = _lastOrientation == ScreenOrientation.LandscapeLeft ||
+                          _lastOrientation == ScreenOrientation.LandscapeRight;
+            
+            OnOrientationChange?.Invoke();
         }
 
         private static void ResolutionChanged()
         {
-            if (lastResolution.x == Screen.width && lastResolution.y == Screen.height)
+            if (_lastResolution.x == Screen.width && _lastResolution.y == Screen.height)
                 return;
 
-            lastResolution.x = Screen.width;
-            lastResolution.y = Screen.height;
+            _lastResolution.x = Screen.width;
+            _lastResolution.y = Screen.height;
 
-            isLandscape = Screen.width > Screen.height;
-            onResolutionChange.Invoke();
+            InLandscape = Screen.width > Screen.height;
+            
+            OnResolutionChange?.Invoke();
         }
 
         private static void SafeAreaChanged()
         {
-            if (lastSafeArea == Screen.safeArea)
+            if (_lastSafeArea == Screen.safeArea)
                 return;
 
-            lastSafeArea = Screen.safeArea;
+            _lastSafeArea = Screen.safeArea;
 
-            foreach (var t in helpers)
+            foreach (var t in Helpers)
                 t.ApplySafeArea();
         }
 
         private static Vector2 GetCanvasSize()
         {
-            return helpers[0].rectTransform.sizeDelta;
+            return Helpers[0]._rectTransform.sizeDelta;
         }
 
         public static Vector2 GetSafeAreaSize()
         {
-            foreach (var t in helpers.Where(t => t.safeAreaTransform != null))
+            foreach (var t in Helpers.Where(t => t._safeAreaTransform != null))
             {
-                return t.safeAreaTransform.sizeDelta;
+                return t._safeAreaTransform.sizeDelta;
             }
 
             return GetCanvasSize();

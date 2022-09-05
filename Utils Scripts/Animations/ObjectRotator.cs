@@ -4,12 +4,25 @@ namespace Utils.Animations
 {
     public class ObjectRotator : MonoBehaviour
     {
-        [SerializeField] private bool rotateX = false, rotateY = false, rotateZ = true;
-        [SerializeField] private float velRotation = 300f;
+        [Header("Target Transform")]
+        [SerializeField] private Transform targetTransform;
 
-        private Transform targetTransform;
-
-        private void Awake() => targetTransform = transform;
+        [Header("Axis Configuration")] 
+        [SerializeField] private bool rotateX = false;
+        [SerializeField] private bool rotateY = false;
+        [SerializeField] private bool rotateZ = true;
+        
+        [Header("Speed Configuration")]
+        [SerializeField] private float rotationVelocity = 300f;
+        
+        private const float DEFAULT_ROTATE_VALUE = 0;
+        private bool Rotating => rotateX || rotateY || rotateZ;
+        
+#if UNITY_EDITOR
+        private void OnValidate() => Awake();
+#endif
+        
+        private void Awake() => targetTransform ??= GetComponent<Transform>();
 
         private void Update()
         {
@@ -18,17 +31,20 @@ namespace Utils.Animations
 
         private void RotateObject()
         {
+            if (Rotating) return;
+            
+            var easedVelocity = rotationVelocity * Time.deltaTime;
+            
             if (rotateX)
-                RotateTransform(targetTransform, new Vector3(velRotation * Time.deltaTime, 0, 0));
+                RotateTransform(new Vector3(easedVelocity, DEFAULT_ROTATE_VALUE, DEFAULT_ROTATE_VALUE));
 
             if (rotateY)
-                RotateTransform(targetTransform, new Vector3(0, velRotation * Time.deltaTime, 0));
+                RotateTransform(new Vector3(DEFAULT_ROTATE_VALUE, easedVelocity, DEFAULT_ROTATE_VALUE));
 
             if (rotateZ)
-                RotateTransform(targetTransform, new Vector3(0, 0, velRotation * Time.deltaTime));
+                RotateTransform(new Vector3(DEFAULT_ROTATE_VALUE, DEFAULT_ROTATE_VALUE, easedVelocity));
         }
 
-        private static void RotateTransform(Transform target, Vector3 rotationToSet) =>
-            target.Rotate(rotationToSet, Space.Self);
+        private void RotateTransform(Vector3 rotationToSet) => targetTransform.Rotate(rotationToSet, Space.Self);
     }
 }

@@ -6,7 +6,8 @@ namespace Utils.Tools
     {
         [SerializeField] private Color colorOfAreaInEditor = new Color(0.5f, 0.5f, 0.5f, 0.2f);
 
-        private float xRange = 10f, yRange = 10f;
+        private float _xRange = 10f;
+        private float _yRange = 10f;
         private static float OffSetValue(float valueToOffSet, float range) => valueToOffSet + Random.Range(-range, range);
 
         private void OnDrawGizmos()
@@ -24,8 +25,8 @@ namespace Utils.Tools
         private void InitializeRangeValues()
         {
             var localScale = transform.localScale;
-            xRange = localScale.x / 2f;
-            yRange = localScale.y / 2f;
+            _xRange = localScale.x / 2f;
+            _yRange = localScale.y / 2f;
         }
 
         ///<summary>
@@ -34,7 +35,7 @@ namespace Utils.Tools
         public Vector2 RandomLocationInsideArea()
         {
             var position = transform.position;
-            return new Vector3(OffSetValue(position.x, xRange), OffSetValue(position.y, yRange), 0);
+            return new Vector3(OffSetValue(position.x, _xRange), OffSetValue(position.y, _yRange), 0);
         }
     }
 }

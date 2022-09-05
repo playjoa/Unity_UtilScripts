@@ -4,14 +4,19 @@ namespace Utils.Tools
 {
     public class RandomPosition3D : MonoBehaviour
     {
-        [SerializeField] private Color GizmosColor = new Color(0.5f, 0.5f, 0.5f, 0.2f);
+        [SerializeField] private Color gizmosColor = new Color(0.5f, 0.5f, 0.5f, 0.2f);
 
-        private float xRange = 10f, yRange = 10f, zRange = 10f;
+        private Transform _areaTransform;
+        
+        private float _xRange = 10f;
+        private float _yRange = 10f;
+        private float _zRange = 10f;
+        
         private static float Range(float scale, float range) => scale + Random.Range(-range, range);
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = GizmosColor;
+            Gizmos.color = gizmosColor;
             Gizmos.DrawCube(transform.position, transform.localScale);
         }
 
@@ -23,9 +28,11 @@ namespace Utils.Tools
         //Gets stats from localscale of your spawn area
         private void Initialize()
         {
-            xRange = transform.localScale.x / 2f;
-            yRange = transform.localScale.y / 2f;
-            zRange = transform.localScale.z / 2f;
+            _areaTransform = transform;
+            var localScale = _areaTransform.localScale;
+            _xRange = localScale.x / 2f;
+            _yRange = localScale.y / 2f;
+            _zRange = localScale.z / 2f;
         }
 
         ///<summary>
@@ -34,7 +41,7 @@ namespace Utils.Tools
         public Vector3 SpawnPositionCustomHeight(float customY = 0)
         {
             var position = transform.position;
-            return new Vector3(Range(position.x, xRange), customY, Range(position.z, zRange));
+            return new Vector3(Range(position.x, _xRange), customY, Range(position.z, _zRange));
         }
 
         ///<summary>
@@ -43,7 +50,7 @@ namespace Utils.Tools
         public Vector3 SpawnPosition()
         {
             var position = transform.position;
-            return new Vector3(Range(position.x, xRange), Range(position.y, yRange), Range(position.z, zRange));
+            return new Vector3(Range(position.x, _xRange), Range(position.y, _yRange), Range(position.z, _zRange));
         }
     }
 }

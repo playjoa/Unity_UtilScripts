@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils.DOTweens;
+using Utils.DOTweens.Components;
 
 namespace Utils.UI
 {
@@ -17,8 +17,10 @@ namespace Utils.UI
 
         private const string TextName = "ButtonInfoText";
 
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
+            
             thisImage = GetComponent<Image>();
             thisText = GetComponentInChildren<TextMeshProUGUI>();
             thisButtonAnimations = GetComponent<DOTweenButton>();

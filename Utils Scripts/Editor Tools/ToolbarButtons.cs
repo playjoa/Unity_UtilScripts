@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
-using UnityToolbarExtender;
+//using UnityToolbarExtender;
 
 namespace Utils.EditorTools
 {
@@ -30,8 +30,8 @@ namespace Utils.EditorTools
         private static GUIContent MainSceneIcon => _mainSceneIcon ??= new GUIContent("Main", "Open main scene");
         private static GUIContent TestSceneIcon => _testSceneIcon ??= new GUIContent("Test", "Open test scene");
 
-        [InitializeOnLoadMethod]
-        private static void Setup() => ToolbarExtender.LeftToolbarGUI.Add(OnLeftToolbarGUI);
+        //[InitializeOnLoadMethod]
+        //private static void Setup() => ToolbarExtender.LeftToolbarGUI.Add(OnLeftToolbarGUI);
 
         private static void OnLeftToolbarGUI()
         {
