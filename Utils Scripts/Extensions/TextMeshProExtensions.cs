@@ -1,10 +1,20 @@
-﻿using TMPro;
+﻿using System.Text;
+using TMPro;
 using UnityEngine;
 
 namespace Utils.Extensions
 {
     public static class TextMeshProExtensions
     {
+        public static StringBuilder AddEnter(this StringBuilder stringBuilder)
+        {
+            if (stringBuilder is null) return new StringBuilder();
+
+            stringBuilder.Append("\n");
+
+            return stringBuilder;
+        }
+        
         public static void SetCustomText(this TMP_Text tmpText, string text, string prefix = "", string suffix = "")
         {
             if (tmpText == null) return;
