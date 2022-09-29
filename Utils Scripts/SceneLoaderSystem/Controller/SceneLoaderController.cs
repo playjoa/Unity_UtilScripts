@@ -58,16 +58,17 @@ namespace Utils.SceneLoader.Controller
         {
             if (LoadingAScene) return;
 
-            var sceneId = LoadingScenes.GetSceneId(targetGameScene.Equals(GameScene.ReloadCurrent) ? CurrentGameScene : targetGameScene);
+            var targetSceneToLoad = targetGameScene.Equals(GameScene.ReloadCurrent) ? CurrentGameScene : targetGameScene;
+            var sceneId = LoadingScenes.GetSceneId(targetSceneToLoad);
 
             if (sceneId == string.Empty || !_scenesAvailable.Contains(sceneId))
             {
-                Debug.LogError($"Scene Id: {sceneId} and/or GameScene {targetGameScene} is not valid!");
+                Debug.LogError($"Scene Id: {sceneId} and/or GameScene {targetSceneToLoad} is not valid!");
                 return;
             }
 
             ResetValues();
-            StartCoroutine(LoadSceneASync(sceneId, new LoadingSceneData(targetGameScene, loadingScreenType)));
+            StartCoroutine(LoadSceneASync(sceneId, new LoadingSceneData(targetSceneToLoad, loadingScreenType)));
         }
 
         private IEnumerator LoadSceneASync(string targetScene, LoadingSceneData sceneData)
