@@ -60,6 +60,13 @@ namespace Utils.GameTools
             _objectPool.Clear();
         }
 
+        public void ReturnToPool(TPoolObject poolObject)
+        {
+            if (!_objectPool.Contains(poolObject)) return;
+            
+            poolObject.gameObject.SetActive(false);
+        }
+
         private TPoolObject InstantiateInPool()
         {
             TPoolObject newObject;
